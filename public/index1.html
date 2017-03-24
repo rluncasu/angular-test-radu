@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="ng.test">
+<head>
+	<script type="text/javascript" src="angular.min.js"></script>
+	<script type="text/javascript" src="lib/js/app.js"></script>
+	<script type="text/javascript" src="lib/js/index1.controller.js"></script>
+	<link rel="stylesheet" href="lib/css/styles.css">
+	<meta charset="UTF-8">
+	<title>Angular Test - 1</title>
+</head>
+<body>
+	<div class="container">
+		<div class="posts-area one-col-left">
+			<h2>List of Items:</h2>
+			<ul class="post-items" ng-controller="PostsController as posts">
+				<li ng-repeat="post in posts">
+					<span class="title">{{post.title}}</span>
+					<p>{{post.body}}</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

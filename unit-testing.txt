@@ -1,0 +1,65 @@
+Unit testing
+
+1.What framework(s) you would use
+Choosing a testing framework it actually is a lot easier than it seems. I'm saying this because the
+pros and cons of either Jasmine, Mocha or Qunit dwindle in front of the much bigger task of writing
+good tests. They just need to also run in a browser page because debugging js in a browser is much easier
+than debugging in command line.
+
+Personal preference - Mocha/Chai/Sinon
+
+2.How you wrote the code to allow it to be unit tested.
+
+I didn't, not really. If I did, I would've:
+
+ - used named functions
+ - passed callback functions as parameters
+ - used promises
+ - leaned more into functional programming with my functions
+ - used more dependency injection
+ - had a single purpose for functions
+ - not mutate parameters
+
+3.What challenges do you see?
+Originating in a failure to follow the principles laid out at 2.) I've seen this happening:
+ - weak/complicated mocking
+ - tests more complicated than the tested code
+ - tests that depend on an object state(needs initialization, might be affected by other running processes)
+ - RANDOM FAILURE (this is the scariest)
+
+ Describe testing the following:
+
+ 1. Unit test the controller you created for index1.controller.js
+   - would test the controller function (which would be named not anonymous :) ), by mocking $http with $httpBackend.
+
+ 2. Unit test the UI you created for index1.html to verify it displays correctly.
+   - don't have very recent experience with UI testing but after a bit of (googling) research , I'd use Nightwatch.js(runs over Selenium)
+
+ 3. Unit test the 'widgets' you created.
+   - challenge here would be testing the event firing, I'd use a spy and after running the triggering
+   function, expect the event emitter was called (mySpy.should.have.been.calledWith("foo");)
+
+ 4. Unit test the REST API.
+   - would unit test the routes loading function (this is all hypothetical, I haven't built them in this test)
+   - would unit test the validation functions for the mongoose models
+   - would unit test the callback functions
+   - would write end-to-end tests , something along this line:
+
+   describe('/GET/:id user', () => {
+    it('it should GET a user having the given id', (done) => {
+      let user = new User({ firstName: "Radu", lastName: "Luncasu", dob: 1977, ... });
+      user.save((err, user) => {
+          chai.request(server)
+          .get('/users/' + user.id)
+          .send(user)
+          .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('firstName');
+              res.body.should.have.property('lastName');
+              ....
+              res.body.should.have.property('_id').eql(book.id);
+            done();
+          });
+      });
+    });

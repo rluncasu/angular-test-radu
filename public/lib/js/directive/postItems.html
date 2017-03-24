@@ -1,0 +1,6 @@
+<ul class="post-items">
+    <li ng-repeat="post in posts" ng-click="getComments(post.id);">
+        <span class="title">{{post.title}}</span>
+        <p>{{post.body}}</p>
+    </li>
+</ul>

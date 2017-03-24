@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="ng.test">
+<head>
+	<script type="text/javascript" src="angular.min.js"></script>
+	<script type="text/javascript" src="lib/js/app.js"></script>
+	<script type="text/javascript" src="lib/js/api.services.js"></script>
+	<script type="text/javascript" src="lib/js/directive/post.js"></script>
+	<script type="text/javascript" src="lib/js/index4.controller.js"></script>
+	<link rel="stylesheet" href="lib/css/styles.css">
+	<meta charset="UTF-8">
+	<title>Angular Test - 2</title>
+</head>
+<body>
+	<div ng-controller="PostsController as posts">
+		<div class="posts-area two-col-left">
+			<h2>List of Items:</h2>
+			<post-items></post-items>		
+		</div>
+		<div class="comments-area two-col-right">
+			<h2>List of Comments:</h2>
+			<comment-items></comment-items>
+		</div>
+	</div>
+</body>
+</html>
