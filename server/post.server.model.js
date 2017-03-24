@@ -9,7 +9,7 @@
  * 		age: 38,
  * 		wage: 35.50,
  * 		hireDate: '2015-04-14',
- * 		lastLogin: '2017-02-22T14:54:32+5:00',
+ * 		lastLogin: '2017-02-22T14:54:32+5:00', // unknown RFC format, use '2017-02-22T14:54:32+05:00'
  * 		username: 'bobwilson',
  * 		password: 'secret-password'
  * }
@@ -17,6 +17,7 @@
  */
 
 var mongoose = require('mongoose');
+var moment = require('moment');
 mongoose.connect('mongodb://localhost:27017/testDB');
 var Schema = mongoose.Schema;
 
@@ -27,7 +28,10 @@ var UserSchema = new Schema({
   age: Number,
   wage: Number,
   hireDate: Date,
-  lastLogin: String,
+  lastLogin: {
+    type: Date,
+    set: (v) => moment(v)
+  },
   username: String,
   password: String
 });

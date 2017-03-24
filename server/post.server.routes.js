@@ -17,6 +17,7 @@
 
 var express = require('express');
 var userModel = require('./post.server.model');
+var moment = require('moment');
 
 // //create one example user
 // var exampleUser = new userModel({
@@ -26,7 +27,7 @@ var userModel = require('./post.server.model');
 //   age: 38,
 //   wage: 35.50,
 //   hireDate: '2015-04-14',
-//   lastLogin: '2017-02-22T14:54:32+5:00',
+//   lastLogin: '2017-02-22T14:54:32+5:00', // unknown RFC format, use '2017-02-22T14:54:32+05:00'
 //   username: 'bobwilson',
 //   password: 'secret-password'
 // });
@@ -57,7 +58,9 @@ router.route('/users')
   })
   //add a user (POST http://localhost:5000/api/users)
   .post(function (req, res) {
-    var user = new userModel(req.body);
+    var model = Object.assign({}, req.body);
+
+    var user = new userModel(model);
     user.save(function (err) {
       if (err)
         res.send(err);
@@ -79,23 +82,19 @@ router.route('/users/:user_id')
   })
   // update the user with this id (PUT http://localhost:5000/api/users/:user_id)
   .put(function (req, res) {
+    var model = Object.assign({}, req.body);
 
-    userModel.findById(req.params.user_id, function (err, user) {
+    userModel.update({
+      _id: req.params.user_id
+    }, model, {
 
+      upsert: true
+    }, function (err) {
       if (err)
         res.send(err);
-
-      //update the user
-      Object.assign(user, req.body);
-
-      user.save(function (err) {
-        if (err)
-          res.send(err);
-        res.json({
-          message: 'User updated!'
-        });
+      res.json({
+        message: 'User updated!'
       });
-
     });
   })
   .delete(function (req, res) {
